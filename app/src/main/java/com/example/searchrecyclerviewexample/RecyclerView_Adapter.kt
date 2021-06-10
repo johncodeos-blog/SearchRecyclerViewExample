@@ -5,12 +5,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.recyclerview_row.view.*
+import com.example.searchrecyclerviewexample.databinding.RecyclerviewRowBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -20,19 +19,20 @@ class RecyclerView_Adapter(private var countryList: ArrayList<String>) :
 
     var countryFilterList = ArrayList<String>()
 
-    lateinit var mcontext: Context
+    lateinit var mContext: Context
 
-    class CountryHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class CountryHolder(var viewBinding: RecyclerviewRowBinding) :
+        RecyclerView.ViewHolder(viewBinding.root)
 
     init {
         countryFilterList = countryList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val countryListView =
-            LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_row, parent, false)
-        val sch = CountryHolder(countryListView)
-        mcontext = parent.context
+        val binding =
+            RecyclerviewRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val sch = CountryHolder(binding)
+        mContext = parent.context
         return sch
     }
 
@@ -41,15 +41,16 @@ class RecyclerView_Adapter(private var countryList: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.select_country_container.setBackgroundColor(Color.TRANSPARENT)
+        val countryHolder = holder as CountryHolder
+        countryHolder.viewBinding.selectCountryContainer.setBackgroundColor(Color.TRANSPARENT)
 
-        holder.itemView.select_country_text.setTextColor(Color.WHITE)
-        holder.itemView.select_country_text.text = countryFilterList[position]
+        countryHolder.viewBinding.selectCountryText.setTextColor(Color.WHITE)
+        countryHolder.viewBinding.selectCountryText.text = countryFilterList[position]
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(mcontext, DetailsActivity::class.java)
+            val intent = Intent(mContext, DetailsActivity::class.java)
             intent.putExtra("passselectedcountry", countryFilterList[position])
-            mcontext.startActivity(intent)
+            mContext.startActivity(intent)
             Log.d("Selected:", countryFilterList[position])
         }
     }
@@ -64,7 +65,9 @@ class RecyclerView_Adapter(private var countryList: ArrayList<String>) :
                 } else {
                     val resultList = ArrayList<String>()
                     for (row in countryList) {
-                        if (row.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT))) {
+                        if (row.lowercase(Locale.ROOT)
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
                             resultList.add(row)
                         }
                     }

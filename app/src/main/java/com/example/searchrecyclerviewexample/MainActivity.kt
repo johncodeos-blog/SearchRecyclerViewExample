@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.searchrecyclerviewexample.databinding.ActivityMainBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -18,19 +18,22 @@ class MainActivity : AppCompatActivity() {
     lateinit var adapter: RecyclerView_Adapter
     lateinit var countryrv: RecyclerView
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        val searchIcon = country_search.findViewById<ImageView>(R.id.search_mag_icon)
+        val searchIcon = binding.countrySearch.findViewById<ImageView>(R.id.search_mag_icon)
         searchIcon.setColorFilter(Color.WHITE)
 
 
-        val cancelIcon = country_search.findViewById<ImageView>(R.id.search_close_btn)
+        val cancelIcon = binding.countrySearch.findViewById<ImageView>(R.id.search_close_btn)
         cancelIcon.setColorFilter(Color.WHITE)
 
-
-        val textView = country_search.findViewById<TextView>(R.id.search_src_text)
+        val textView = binding.countrySearch.findViewById<TextView>(R.id.search_src_text)
         textView.setTextColor(Color.WHITE)
         // If you want to change the color of the cursor, change the 'colorAccent' in colors.xml
 
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         countryrv.layoutManager = LinearLayoutManager(countryrv.context)
         countryrv.setHasFixedSize(true)
 
-        country_search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.countrySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
