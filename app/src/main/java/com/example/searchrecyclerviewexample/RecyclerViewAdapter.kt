@@ -14,7 +14,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class RecyclerView_Adapter(private var countryList: ArrayList<String>) :
+class RecyclerViewAdapter(private var countryList: ArrayList<String>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     var countryFilterList = ArrayList<String>()

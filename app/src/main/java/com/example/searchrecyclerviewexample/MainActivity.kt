@@ -15,7 +15,7 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var adapter: RecyclerView_Adapter
+    lateinit var adapter: RecyclerViewAdapter
     lateinit var countryrv: RecyclerView
 
     private lateinit var binding: ActivityMainBinding
@@ -23,17 +23,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
-        val searchIcon = binding.countrySearch.findViewById<ImageView>(R.id.search_mag_icon)
+        val searchIcon = binding.countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchIcon.setColorFilter(Color.WHITE)
 
 
-        val cancelIcon = binding.countrySearch.findViewById<ImageView>(R.id.search_close_btn)
+        val cancelIcon = binding.countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
         cancelIcon.setColorFilter(Color.WHITE)
 
-        val textView = binding.countrySearch.findViewById<TextView>(R.id.search_src_text)
+        val textView = binding.countrySearch.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
         textView.setTextColor(Color.WHITE)
         // If you want to change the color of the cursor, change the 'colorAccent' in colors.xml
 
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 (String(Character.toChars(firstChar)) + String(Character.toChars(secondChar)))
             countryListWithEmojis.add("$countryName $flag")
         }
-        adapter = RecyclerView_Adapter(countryListWithEmojis)
+        adapter = RecyclerViewAdapter(countryListWithEmojis)
         countryrv.adapter = adapter
     }
 
