@@ -5,33 +5,33 @@ import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.searchrecyclerviewexample.databinding.RecyclerviewRowBinding
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class RecyclerViewAdapter(private var countryList: ArrayList<String>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    RecyclerView.Adapter<RecyclerViewAdapter.CountryViewHolder>(), Filterable {
 
     var countryFilterList = ArrayList<String>()
 
-    lateinit var mContext: Context
+    private lateinit var mContext: Context
 
-    class CountryHolder(var viewBinding: RecyclerviewRowBinding) :
-        RecyclerView.ViewHolder(viewBinding.root)
+    inner class CountryViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     init {
         countryFilterList = countryList
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding =
-            RecyclerviewRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val sch = CountryHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_row, parent, false)
+        val sch = CountryViewHolder(v)
         mContext = parent.context
         return sch
     }
@@ -40,12 +40,15 @@ class RecyclerViewAdapter(private var countryList: ArrayList<String>) :
         return countryFilterList.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val countryHolder = holder as CountryHolder
-        countryHolder.viewBinding.selectCountryContainer.setBackgroundColor(Color.TRANSPARENT)
+    override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
+        val selectCountryContainer =
+            holder.itemView.findViewById<RelativeLayout>(R.id.select_country_container)
+        selectCountryContainer.setBackgroundColor(Color.TRANSPARENT)
 
-        countryHolder.viewBinding.selectCountryText.setTextColor(Color.WHITE)
-        countryHolder.viewBinding.selectCountryText.text = countryFilterList[position]
+        val selectCountryTextView =
+            holder.itemView.findViewById<TextView>(R.id.select_country_text_view)
+        selectCountryTextView.setTextColor(Color.WHITE)
+        selectCountryTextView.text = countryFilterList[position]
 
         holder.itemView.setOnClickListener {
             val intent = Intent(mContext, DetailsActivity::class.java)

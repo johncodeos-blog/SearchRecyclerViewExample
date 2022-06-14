@@ -8,40 +8,38 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.searchrecyclerviewexample.databinding.ActivityMainBinding
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var adapter: RecyclerViewAdapter
-    lateinit var countryrv: RecyclerView
+    private lateinit var countryRv: RecyclerView
 
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        val searchIcon = binding.countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        val countrySearch = findViewById<SearchView>(R.id.country_search)
+        val searchIcon =
+            countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchIcon.setColorFilter(Color.WHITE)
 
-
-        val cancelIcon = binding.countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+        val cancelIcon =
+            countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
         cancelIcon.setColorFilter(Color.WHITE)
 
-        val textView = binding.countrySearch.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
+        val textView = countrySearch.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
         textView.setTextColor(Color.WHITE)
         // If you want to change the color of the cursor, change the 'colorAccent' in colors.xml
 
 
-        countryrv = findViewById(R.id.country_rv)
-        countryrv.layoutManager = LinearLayoutManager(countryrv.context)
-        countryrv.setHasFixedSize(true)
+        countryRv = findViewById(R.id.country_rv)
+        countryRv.layoutManager = LinearLayoutManager(countryRv.context)
+        countryRv.setHasFixedSize(true)
 
-        binding.countrySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        countrySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -71,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             countryListWithEmojis.add("$countryName $flag")
         }
         adapter = RecyclerViewAdapter(countryListWithEmojis)
-        countryrv.adapter = adapter
+        countryRv.adapter = adapter
     }
 
 

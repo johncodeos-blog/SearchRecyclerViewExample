@@ -1,20 +1,18 @@
 package com.example.searchrecyclerviewexample
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.searchrecyclerviewexample.databinding.ActivityDetailsBinding
 
 class DetailsActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailsBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(R.layout.activity_details)
 
-        binding.detailCountryText.text = intent.extras!!.getString("passselectedcountry")!!
+        val detailCountryText = findViewById<TextView>(R.id.detail_country_text_view)
+        detailCountryText.text = intent.extras!!.getString("passselectedcountry")!!
 
     }
 }
